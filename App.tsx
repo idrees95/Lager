@@ -1,76 +1,62 @@
+// me/lager/App.tsx
 import { StatusBar } from 'expo-status-bar';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import warehouse from './assets/warehouse.jpg';
-import Stock from './components/Stock.tsx';
+import Stock from "./components/Warehouse";
+import Pick from "./components/Pick.tsx";
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+
+
+const Tab = createBottomTabNavigator();
+// const routeIcons = {
+//   "Lager": "stock",
+//   "Plock": "pick",
+// };
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.base}>
-      <View style={styles.appback}>
-        <Text style={styles.title}>Lager-Appen</Text>
-        <Image source={warehouse} style={styles.img} />
-        <Text style={styles.base0}>Lagerförteckning</Text>
-        <Text style={styles.base1}>Namn</Text>
-        <Text style={styles.base2}>Antal</Text>
-        <Stock/>
-        <StatusBar style="auto" />
-      </View>
+    <SafeAreaView style={styles.container}>
+     
+      <NavigationContainer>
+        {/* <Tab.Navigator>
+          <Tab.Screen style={styles.itemslist} name="Lager" component={Stock} />
+          <Tab.Screen name="Plock" component={Pick} />
+        </Tab.Navigator> */}
+        <Tab.Navigator screenOptions={({ route }) => ({
+    tabBarIcon: ({ focused, color, size }) => {
+      let iconName;
+
+      if (route.name === "Lager") {
+          iconName = "home";
+      } else if (route.name === "Plock")  {
+          iconName = "list";
+      } else {
+          iconName = "alert";
+      }
+
+      return <Ionicons name={iconName} size={size} color={color} />;
+    },
+    tabBarActiveTintColor: 'tomato',
+    tabBarInactiveTintColor: 'gray',
+  })}
+>
+  <Tab.Screen name="Lager" component={Stock} />
+  <Tab.Screen name="Plock" component={Pick} />
+</Tab.Navigator>
+      </NavigationContainer>
+      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  img: {
-    width: 320,
-    height: 240,
-    // marginLeft: 25,
-    marginLeft: 27,
-    // marginRight: 25,
-    // textAlign: "center"
-    
+  container: {
+    flex: 1,
   },
-  appback: {
+  itemslist: {
+    backgroundColor: "yellow",
     overflow: "scroll"
   },
-  title: {
-    color: '#33c', 
-    fontSize: 42,
-    textAlign: 'center',
-    fontWeight: "bold"
-  },
-  base: {
-    backgroundColor: '#ababab',
-  },
-  base0: {
-
-    backgroundColor: '#ababab',
-    paddingBottom: 20,
-    paddingTop: 20,
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: "bold",
-    textDecorationLine: 'underline',
-    borderStyle: "dashed",
-    borderColor: "green"
-
-  },
-  base1: {
-    backgroundColor: 'red',
-    paddingRight: 135,
-    paddingBottom: 2 ,
-    textAlign: "center",
-    fontSize: 15,
-    fontWeight: "bold"
-    },
-  base2: {
-    paddingLeft: 70,
-    paddingBottom: 1,
-    marginLeft: 50,
-    marginTop: -20,
-    textAlign: 'center',
-    fontSize: 15,
-    fontWeight: "bold"
-    
-  }
 });
