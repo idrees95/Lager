@@ -40,6 +40,6 @@ export default function Stock() {
 
 const styles = StyleSheet.create({
   base1: {
-    marginLeft: 125
+    marginLeft: 140
   }
 });
